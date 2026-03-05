@@ -58,7 +58,8 @@
     padding: 10vh 10%;
     
     /* إعدادات الخلفية */
-    background: url('../image/logo.png');
+    
+    background: url('image/logo.png') no-repeat center center;
     background-size: 0px; /* تبدأ من الصفر لكي تظهر الحركة */
     
     /* تفعيل الحركة: تستغرق ثانيتين وتحدث مرة واحدة فقط وتثبت */
