@@ -158,10 +158,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (subSelect.value === "أخرى") formData.set('subSpecialty', subOther.value);
 
         fetch('https://script.google.com/macros/s/AKfycbyp3GtlI_j8P6nBvmcbH_bFVeAaX6Y7R9GAhDOO-UTpBwamNC-AuQ1wTLLFY44ff1h4/dev', { 
-            method: 'POST',  
-            mode: 'no-cors',
-            body: formData
-        })
+    method: 'POST',  
+    mode: 'no-cors', // اتركها كما هي لتجنب مشاكل الـ CORS
+    body: formData
+})
         .then(() => {
             document.getElementById('thankYouModal').style.display = 'flex';
             form.reset();
