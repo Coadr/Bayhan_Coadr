@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mainSelect.value === "other-main") formData.set('mainSpecialty', mainOther.value);
         if (subSelect.value === "أخرى") formData.set('subSpecialty', subOther.value);
 
-        fetch('https://script.google.com/macros/s/AKfycbyp3GtlI_j8P6nBvmcbH_bFVeAaX6Y7R9GAhDOO-UTpBwamNC-AuQ1wTLLFY44ff1h4/dev', { 
+        fetch('https://script.google.com/macros/s/AKfycbyp3GtlI_j8P6nBvmcbH_bFVeAaX6Y7R9GAhDOO-UTpBwamNC-AuQ1wTLLFY44ff1h4/exec', { 
     method: 'POST',  
-    mode: 'no-cors', // اتركها كما هي لتجنب مشاكل الـ CORS
+    mode: 'no-cors', 
     body: formData
 })
         .then(() => {
