@@ -61,33 +61,67 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneKeySelect = document.getElementById('phone-key');
     const phoneHint = document.getElementById('phone-hint');
 
-    // --- ميزة الانتقال التلقائي ---
-    const allInputs = Array.from(form.querySelectorAll('input:not([type="hidden"]), select, textarea'));
+
+function moveToNext(currentElement) {
+    // 1. تعريف مصفوفة المدخلات داخل الدالة لضمان تشميل العناصر التي ظهرت حديثاً
+    const allInputs = Array.from(document.getElementById('cadersForm').querySelectorAll('input:not([type="hidden"]), select, textarea'));
     
-    function moveToNext(currentElement) {
-        const currentIndex = allInputs.indexOf(currentElement);
-        for (let i = currentIndex + 1; i < allInputs.length; i++) {
-            const nextField = allInputs[i];
-            if (nextField.offsetWidth > 0 && nextField.offsetHeight > 0) {
-                setTimeout(() => nextField.focus(), 150);
-                break;
-            }
+    // 2. معالجة خاصة لخيارات "أخرى" (Other) لضمان القفز إليها مباشرة
+    const otherMappings = {
+        'main-specialty': { value: 'other-main', target: 'main-other' },
+        'sub-specialty': { value: 'أخرى', target: 'sub-other' },
+        'university-select': { value: 'other_custom', target: 'other_university' },
+        'country': { value: 'other', target: 'other_country' }
+    };
+
+    const mapping = otherMappings[currentElement.id];
+    if (mapping && currentElement.value === mapping.value) {
+        const targetEl = document.getElementById(mapping.target);
+        if (targetEl) {
+            setTimeout(() => targetEl.focus(), 100);
+            return;
         }
     }
 
-    allInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            if (this.value !== "") moveToNext(this);
-        });
-        if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    moveToNext(this);
-                }
-            });
+    // 3. المنطق العام للانتقال للحقل التالي المرئي
+    const currentIndex = allInputs.indexOf(currentElement);
+    if (currentIndex === -1) return; // إذا لم يجد العنصر في المصفوفة
+
+    for (let i = currentIndex + 1; i < allInputs.length; i++) {
+        const nextField = allInputs[i];
+        
+        // التحقق من أن الحقل مرئي (Display ليس none) وليس معطلاً
+        const isVisible = nextField.offsetWidth > 0 && nextField.offsetHeight > 0;
+        
+        if (isVisible && !nextField.disabled) {
+            setTimeout(() => {
+                nextField.focus();
+                // إذا كان الحقل "Select"، يفضل أحياناً عدم فتحه تلقائياً لراحة المستخدم
+            }, 150);
+            break;
+        }
+    }
+}
+
+// تحديث مستمعي الأحداث (Event Listeners) لتعمل مع الدالة الجديدة
+document.querySelectorAll('#cadersForm input, #cadersForm select, #cadersForm textarea').forEach(input => {
+    // عند التغيير (للقوائم المنسدلة)
+    input.addEventListener('change', function() {
+        if (this.value !== "") {
+            moveToNext(this);
         }
     });
+
+    // عند الضغط على Enter (للحقول النصية)
+    if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                moveToNext(this);
+            }
+        });
+    }
+});
 
     // --- منطق الجوال ---
     function updatePhoneValidation() {
@@ -156,12 +190,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (countrySelect.value === "other") formData.set('country', otherCountryInput.value);
         if (mainSelect.value === "other-main") formData.set('mainSpecialty', mainOther.value);
         if (subSelect.value === "أخرى") formData.set('subSpecialty', subOther.value);
-
-        fetch('https://script.google.com/macros/s/AKfycbyp3GtlI_j8P6nBvmcbH_bFVeAaX6Y7R9GAhDOO-UTpBwamNC-AuQ1wTLLFY44ff1h4/exec', { 
+  // استبدل هذا السطر في ملف script.js
+fetch('https://script.google.com/macros/s/AKfycbyp3GtlI_j8P6nBvmcbH_bFVeAaX6Y7R9GAhDOO-UTpBwamNC-AuQ1wTLLFY44ff1h4/exec', { 
     method: 'POST',  
-    mode: 'no-cors', 
+    mode: 'no-cors', // اتركها كما هي لتجنب مشاكل الـ CORS
     body: formData
 })
+
+        
         .then(() => {
             document.getElementById('thankYouModal').style.display = 'flex';
             form.reset();
@@ -221,4 +257,64 @@ function typeLoop() {
 }
 
 // بدء التأثير
-window.onload = () => setTimeout(typeLoop, 4000);
+window.onload = () => setTimeout(typeLoop, 1000);
+// تحسين دالة إظهار حقول "أخرى" مع التركيز التلقائي
+function toggleOtherField(selectElement, otherWrapperId, otherInputId) {
+    const wrapper = document.getElementById(otherWrapperId);
+    const input = document.getElementById(otherInputId);
+    
+    if (selectElement.value === "أخرى" || selectElement.value === "other" || selectElement.value === "other_custom" || selectElement.value === "other-main") {
+        wrapper.style.display = "block";
+        input.focus(); // تركيز تلقائي
+        input.required = true;
+    } else {
+        wrapper.style.display = "none";
+        input.required = false;
+    }
+}
+
+// إضافة ميزة منع مغادرة الصفحة أثناء التعبئة
+window.onbeforeunload = function() {
+    const fullName = document.querySelector('input[name="fullName"]').value;
+    if (fullName.length > 0) {
+        return "هل أنت متأكد من المغادرة؟ سيتم فقدان البيانات التي أدخلتها.";
+    }
+};
+// التحقق الفوري للاسم الرباعي
+const nameInput = document.getElementsByName('fullName')[0];
+nameInput.addEventListener('input', function() {
+    if (validateQuadName(this.value)) {
+        this.style.borderColor = '#4ade80';
+        this.parentElement.setAttribute('data-valid', 'true');
+    } else {
+        this.style.borderColor = 'rgba(255,255,255,0.1)';
+    }
+});
+function animateCounter(id, target) {
+    let count = 0;
+    let interval = setInterval(() => {
+        if (count >= target) clearInterval(interval);
+        document.getElementById(id).innerText = count + "+";
+        count += Math.ceil(target / 50);
+    }, 30);
+}
+// تشغيل عند الوصول للقسم
+window.onscroll = () => {
+    const statsSection = document.querySelector('.stats-card');
+    if (window.scrollY > statsSection.offsetTop - 500) {
+        animateCounter('cadre-count', 150);
+    }
+};
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('mainHeader');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+        header.style.top = '0';
+        header.style.width = '100%';
+    } else {
+        header.classList.remove('scrolled');
+        header.style.top = '20px';
+        header.style.width = '90%';
+    }
+});
+  
