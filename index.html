@@ -9,11 +9,16 @@
 
     
 <link rel="stylesheet" href="style.css">
+<meta name="description" content="منصة كوادر بيحان - قاعدة بيانات رقمية تجمع الكوادر المتخصصة لخدمة مستقبل بيحان.">
+<meta name="keywords" content="بيحان, كوادر, توظيف اليمن, شبوة, مهندسين بيحان, أطباء بيحان">
+<meta property="og:title" content="منصة كوادر بيحان | الرؤية المستقبلية">
+<meta property="og:image" content="image/logo.png">
 </head>
 
 <body>
 <div id="thankYouModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.9); z-index:9999; justify-content:center; align-items:center; padding: 20px;">
     <div class="modern-card" style="max-width:400px; text-align:center; padding:2rem; border:1px solid var(--primary); background: var(--bg-dark);">
+
         <i class="fas fa-check-circle" style="font-size: 4rem; color: #4ade80; margin-bottom: 1rem;"></i>
         <h2 style="margin-bottom: 1rem;">تم الإرسال بنجاح!</h2>
         <p style="color: var(--text-dim); margin-bottom: 2rem;">شكراً لك، تم توثيق بياناتك في منصة كوادر بنجاح.</p>
@@ -24,23 +29,26 @@
         <div class="blob"></div>
     </div>
 
-    <header>
-<div class="logo">
-    <i class="fas fa-bolt"></i>
-    <span>COAD<span class="highlight-r">R</span></span>
-</div>
-        <nav>
-            <a href="#home">الرئيسية</a>
-            <a href="#profile">التسجيل</a>
-            <a href="#about">عنا</a>
-            <a href="#conect">تابعنا </a>
-        </nav>
-        <button class="btn-grad" style="padding: 8px 20px; font-size: 0.9rem;" onclick="location.href='#conect'">تابعنا</button>
-    </header>
+<header id="mainHeader">
+    <div class="logo">
+        <i class="fas fa-bolt"></i>
+        <span>COAD<span style="color:var(--primary)">R</span></span>
+    </div>
+    
+    <nav>
+        <a href="#home" class="active">الرئيسية</a>
+        <a href="#profile">التسجيل</a>
+        <a href="#about">عنا</a>
+        <a href="#contact">تواصل معنا</a>
+    </nav>
+
+    <button class="header-btn" onclick="location.href='#contact'">تابعنا</button>
+</header>
 
     <main>
       
 <section id="home" class="hero">
+   <img src="image/logo.png" alt="Logo" class="hero-logo">
     <h1 class="title">منصة <span>كوادر بيحان</span> الرقمية</h1>
 
     <p class="subtitle">
@@ -53,7 +61,6 @@
     <button class="btn-grad" onclick="showProfileSection()">
         <span class="btn-text">سجل بياناتك</span>
         <i class="fas fa-pen-nib btn-icon"></i> </button>
-</div>
 
     </div>
 </section>
@@ -112,6 +119,7 @@
         <option value="عين">عين</option>
 
     </select> 
+     </div>
     <div class="input-group">
     <label for="village-name"> اسم القرية او اسم المنطقه:</label>
     <input type="text" id="village-name" name="village_name" placeholder="أدخل اسم قريتك او اسم منطقتك هنا" required>
@@ -147,7 +155,7 @@
     </select>
 </div>
 
-<div class="input-group" id="uni-list-wrapper" style="display:none;">
+<div class="input-group" id="uni-list-wrapper" >
     <label>اسم الجامعة</label>
     <select name="university" id="university-select" required>
         <option value="">اختر الجامعة</option>
@@ -358,8 +366,21 @@
         </div>
     </div>
 </div>
+    </div>
 
                          </section>
+                         <section id="faq" class="section-padding">
+    <h2 style="text-align:center; margin-bottom:40px;">الأسئلة الشائعة</h2>
+    <div class="accordion-container" style="max-width:800px; margin:auto;">
+        <details class="modern-card" style="margin-bottom:15px; cursor:pointer;">
+            <summary style="font-weight:bold; list-style:none; display:flex; justify-content:space-between;">
+                هل بياناتي خصوصية؟ <i class="fas fa-chevron-down"></i>
+            </summary>
+            <p style="margin-top:15px; color:var(--text-dim);">نعم، بياناتك مشفرة ولا تظهر إلا للجهات المعتمدة فقط.</p>
+        </details>
+    </div>
+</section>
+
 
     </main>
 
@@ -377,7 +398,7 @@
             <ul>
                 <li><a href="#home">الرئيسية</a></li>
                 <li><a href="#about">عنا</a></li>
-                <li><a href="#conect">تابعنا</a></li>
+                <li><a href="#contact">تابعنا</a></li>
                 <li><a href="#profile">التسجيل</a></li>
                                 <li><a href="#contact2">اتواصل معنا</a></li>
             </ul>
@@ -424,7 +445,8 @@
 
         </div>
     </div>
-</section><section id="conect" class="social-modern-section">
+    
+</section><section id="contact" class="social-modern-section">
     <div class="social-wrapper">
         <div class="social-text-side">
             <span class="badge">مجتمعنا الرقمي</span>
@@ -432,7 +454,7 @@
             <p>كن جزءاً من عائلة "كوادر" وتواصل مع الخبراء والمبدعين في كافة المجالات عبر منصاتنا المختلفة.</p>
         </div>
 
-        <div class="social-icons-side">
+                <div class="social-icons-side">
             <a href="https://t.me/coadrs_Bot" class="s-card tg" data-name="تليجرام">
                 <i class="fab fa-telegram-plane"></i>
             </a>
