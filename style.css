@@ -34,52 +34,161 @@
             to { transform: translate(20%, 20%); }
         }
 
-        /* Header & Nav */
-        header {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 10px; }
-
-        nav { display: flex; gap: 2rem; }
-        nav a { color: var(--text-dim); text-decoration: none; font-weight: 500; transition: 0.3s; }
-        nav a:hover, nav a.active { color: var(--text-main); text-shadow: 0 0 10px var(--primary); }
-
-        /* Hero Section */
-.hero {
-    height: 100vh;
+        /* Header & Nav */header {
+    /* جعل الهيدر يطفو بعيداً عن الحواف */
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 1000;
+    
+    /* تصميم الزجاج (Glassmorphism) */
+    background: rgba(15, 23, 42, 0.7); /* لون داكن شفاف */
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    
+    /* حدود مضيئة ناعمة */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    
+    padding: 0.8rem 2rem;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    text-align: center;
-    padding: 10vh 10%;
     
-    /* إعدادات الخلفية */
-    
-    background: url('image/logo.png') no-repeat center center;
-    background-size: 0px; /* تبدأ من الصفر لكي تظهر الحركة */
-    
-    /* تفعيل الحركة: تستغرق ثانيتين وتحدث مرة واحدة فقط وتثبت */
-    animation: logoEntrance 2s ease-out forwards;
+    /* ظل ناعم لإعطاء عمق */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* تعريف حركة دخول الشعار */
+/* تأثير عند تمرير الصفحة (اختياري عبر JS) */
+header.scrolled {
+    top: 0;
+    width: 100%;
+    border-radius: 0 0 20px 20px;
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 0.5px;
+}
+
+.logo i {
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px var(--primary));
+    font-size: 1.2rem;
+}
+
+nav {
+    display: flex;
+    gap: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 20px;
+    border-radius: 100px; /* شكل كبسولة للروابط */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+}
+
+nav a:hover, nav a.active {
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* إضافة نقطة مضيئة أسفل الرابط النشط */
+nav a.active {
+    position: relative;
+}
+
+nav a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+/* زر "تابعنا" المدمج في الهيدر */
+.header-btn {
+    background: var(--primary);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+}
+
+.header-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.hero {
+    min-height: 100vh; /* يضمن تغطية الشاشة مع السماح بالتمدد إذا زاد المحتوى */
+    height: auto;      /* يمنع ثبات الطول عند قلب الشاشة */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    padding: 120px 5% 60px; /* مساحة علوية للهيدر الطافي */
+}
+
+
+
+/* 2. تنسيق الصورة الجديد */
+.hero-logo {
+    width: 300px; /* حجم افتراضي مناسب */
+    height: auto;
+    
+    margin-bottom: 20px;
+    
+    /* حركة الظهور */
+    opacity: 1;
+    transform: scale(0.5); /* تبدأ صغيرة */
+    animation: logoEntrance 1.5s ease-out forwards;
+    filter: invert(100%) brightness(200%);
+}
+
+/* 3. تعديل الأنميشن ليكون مضمون الظهور */
 @keyframes logoEntrance {
-    0% {
-        background-size: 0px;
+    from {
         opacity: 0;
+        transform: scale(0.5);
     }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        background-size: 500px; /* الحجم النهائي الذي اخترته */
+    to {
         opacity: 1;
+        transform: scale(1); /* تعود لحجمها الطبيعي */
     }
 }
+
+
+
+
 
 .title {
     font-size: clamp(2.5rem, 8vw, 5rem);
@@ -140,7 +249,7 @@
     color: #eaeaea;
     direction: rtl; /* اتجاه الكتابة عربي */
     text-align: right;
-    margin-top: 90%;
+    margin-top: auto;
     /* الحل السحري: جعل الحاوية تنكمش على حجم النص فقط */
     display: inline; 
     position: relative;
@@ -648,9 +757,11 @@
     .subscribe-form { flex-direction: column; }
 }
 /* قسم التواصل */
+/* --- قسم التواصل المطور ليدعم جميع أوضاع الشاشة --- */
 .contact-section {
-    padding: 100px 5%;
+    padding: clamp(60px, 10vh, 100px) 5%; /* حشوة مرنة تتناسب مع ارتفاع الشاشة */
     position: relative;
+    width: 100%;
 }
 
 .contact-container {
@@ -660,7 +771,7 @@
 
 .contact-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: clamp(30px, 5vh, 60px);
 }
 
 .contact-header .badge {
@@ -671,12 +782,14 @@
     font-size: 0.8rem;
     font-weight: 700;
     border: 1px solid rgba(99, 102, 241, 0.2);
+    display: inline-block;
 }
 
 .contact-header h2 {
-    font-size: 3rem;
-    margin-top: 20px;
+    font-size: clamp(1.8rem, 5vw, 3rem); /* تصغير حجم الخط تلقائياً على الشاشات الصغيرة */
+    margin-top: 15px;
     color: white;
+    line-height: 1.2;
 }
 
 .contact-header h2 span {
@@ -685,11 +798,32 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* التعديل الجوهري في الشبكة */
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 40px;
+    /* استخدام minmax لضمان عدم تداخل الأعمدة */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 30px;
     align-items: start;
+}
+
+@media (min-width: 1024px) {
+    .contact-grid {
+        grid-template-columns: 1fr 1.5fr;
+    }
+}
+
+/* معالجة وضع قلب الشاشة (Landscape) للجوالات */
+@media (max-height: 500px) and (orientation: landscape) {
+    .contact-section {
+        padding-top: 40px;
+    }
+    .contact-header {
+        margin-bottom: 20px;
+    }
+    .contact-header h2 {
+        font-size: 1.5rem;
+    }
 }
 
 /* بطاقات المعلومات */
@@ -833,5 +967,161 @@
     opacity: 1;
 }
 
+/* --- نافذة الشكر (Modal) المحسنة --- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px); /* تأثير الضبابية للخلفية */
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 10000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeIn 0.4s ease;
+}
 
-    
+.glass-modal-card {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    max-width: 420px;
+    width: 100%;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: translateY(0);
+    animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-animation {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.check-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(74, 222, 128, 0.4);
+}
+
+.glass-modal-card h2 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.separator {
+    width: 50px;
+    height: 4px;
+    background: var(--primary);
+    margin: 15px auto;
+    border-radius: 10px;
+}
+
+.glass-modal-card p {
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.glass-modal-card p span {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* --- الهيدر (Header) بتنسيق طافي --- */
+.main-header {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 999;
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 12px 25px;
+    transition: 0.3s;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1.4rem;
+}
+
+.logo-icon {
+    background: var(--primary);
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.nav-link {
+    color: var(--text-dim);
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.btn-primary-glow {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    transition: 0.3s;
+}
+
+.btn-primary-glow:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+}
+
+/* --- أنيميشن --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+
+        
