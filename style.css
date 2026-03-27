@@ -1,13 +1,28 @@
 
-        :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --accent: #f59e0b;
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-        }
+:root {
+    /* الألوان الأساسية - مزيج البنفسجي الساحر والأزرق الكهربائي */
+    --primary: #6366f1;       /* Indigo: لون الثقة والحداثة */
+    --secondary: #a855f7;     /* Purple: لمسة إبداعية */
+    --accent: #22d3ee;        /* Cyan: للوميض والتنبيهات الحيوية */
+    
+    /* الخلفيات - تدرج من الأسود العميق إلى الكحلي الغامق */
+    --bg-dark: #020617;       /* Deep Space: أعمق درجة ممكنة */
+    --bg-surface: #0f172a;    /* Slate Dark: للأسطح المرتفعة */
+    
+    /* تأثير الزجاج الفاخر (Glassmorphism) */
+    --glass-bg: rgba(30, 41, 59, 0.4); 
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    /* النصوص - ألوان ثلجية مريحة للعين */
+    --text-main: #f8fafc;     /* Ghost White */
+    --text-dim: #64748b;      /* Cool Gray */
+    
+    /* الظلال والتوهج (Glow & Shadows) */
+    --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+     --card-bg: rgba(15, 23, 42, 0.6);
+}
+
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
 
@@ -34,7 +49,8 @@
             to { transform: translate(20%, 20%); }
         }
 
- .header {
+/* تنسيق الهيدر الأساسي */
+.header {
     position: fixed;
     top: 20px;
     left: 50%;
@@ -182,25 +198,7 @@
     .menu-toggle { display: flex; }
 }
 
-        
-/* زر "تابعنا" المدمج في الهيدر */
-.header-btn {
-    background: var(--primary);
-    color: white;
-    padding: 8px 20px;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
-}
 
-.header-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
-}
 
 .hero {
     min-height: 100vh; /* يضمن تغطية الشاشة مع السماح بالتمدد إذا زاد المحتوى */
@@ -217,15 +215,10 @@
 
 /* 2. تنسيق الصورة الجديد */
 .hero-logo {
-    width: 300px; /* حجم افتراضي مناسب */
+    width: min(250px, 60%); /* حجم مرن */
     height: auto;
-    
     margin-bottom: 20px;
-    
-    /* حركة الظهور */
-    opacity: 1;
-    transform: scale(0.5); /* تبدأ صغيرة */
-    animation: logoEntrance 1.5s ease-out forwards;
+    animation: logoEntrance 1.2s ease-out forwards;
     filter: invert(100%) brightness(200%);
 }
 
@@ -246,30 +239,38 @@
 
 
 .title {
-    font-size: clamp(2.5rem, 8vw, 5rem);
+ font-size: clamp(1.5rem, 5vw, 3rem);
     font-weight: 900;
+    
     margin-bottom: 1.5rem;
     line-height: 1.1;
     color: #ffffff;
     text-align: center;
     direction: rtl;
-
+ font-family: 'Cairo', sans-serif;
     /* --- إعدادات الحركة الجديدة --- */
     opacity: 0; /* يبدأ مخفي */
-    transform: translateY(-30px) scale(0.9); /* يبدأ مزاح للأعلى وصغير قليلاً */
-    
-    /* تفعيل الحركات المتسلسلة: */
-    /* 1.fadeInUp للظهور، 2.titlePulse للنبض */
-    /* ease-out تجعل البداية سريعة والنهاية هادئة */
+    transform: translateY(-30px) scale(0.9);
     animation: 
         fadeInUp 1s ease-out forwards 0.3s, /* يبدأ الظهور بعد 0.3 ثانية */
         titlePulse 1.5s ease-in-out forwards 1.3s; /* يبدأ النبض بعد انتهاء الظهور (1s + 0.3s) */
 }
+.title span {
+    background: linear-gradient(
+        to right, 
+        var(--primary) 20%, 
+        #fff 40%, 
+        #fff 60%, 
+        var(--secondary) 80%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    animation: shine 3s linear infinite;
+}
 
-/* التنسيق للكلمة الملونة "كوادر بيحان" */
 
-
-/* --- تعريف حركة الظهور --- */
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -288,7 +289,7 @@
 /* النص تحت العنوان */
 .subtitle {
     font-size: 20px;
-    margin-top: none;
+    margin-top: 0;
     
     background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
@@ -309,24 +310,40 @@
     display: inline; 
     position: relative;
     word-wrap: break-word;
+    
 }
+
 
 /* إنشاء المؤشر كعنصر ملتصق بآخر حرف */
 .description::after {
     content: "";
     display: inline-block;
+    width: 3px;               /* سمك أكثر قليلاً ليعطي مساحة للتوهج */
+    height: 1.2rem;
+    background: var(--primary); /* يستخدم لونك الأساسي #6366f1 */
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 4px;       /* حواف ناعمة للمؤشر */
     
-    /* --- التحكم في الحجم --- */
-    width: 2px;          /* سمك الخط */
-    height: 1.1rem;      /* طول الخط - يمكنك تصغيره لـ 0.8rem */
+    /* تأثير التوهج الضوئي */
+    box-shadow: 0 0 10px var(--primary), 
+                0 0 20px var(--secondary);
     
-    background-color: #ff416c; /* لون المؤشر */
-    margin-right: 5px;   /* مسافة بسيطة عن آخر حرف */
-    vertical-align: middle; /* موازنة المؤشر مع الحروف */
-    
-    /* حركة الوميض */
-    animation: blink-caret .75s step-end infinite;
+    /* أنميشن وميض ناعم (Fade) */
+    animation: neon-blink 1s ease-in-out infinite;
 }
+
+@keyframes neon-blink {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scaleY(1); 
+    }
+    50% { 
+        opacity: 0.2; 
+        transform: scaleY(0.8); /* يتقلص قليلاً عند الاختفاء لإعطاء حركة ديناميكية */
+    }
+}
+
 
 @keyframes blink-caret {
     from, to { opacity: 1; }
@@ -396,14 +413,11 @@
             padding: 2rem; border-radius: 32px; border: 1px solid rgba(255,255,255,0.1);
         }
 
-                :root {
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --bg-dark: #0f172a;
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --text-main: #f8fafc;
-    --text-dim: #94a3b8;
+
+
+/* لمنع تكبير النص عند قلب الشاشة */
+html {
+    -webkit-text-size-adjust: 100%;
 }
 
 .input-group {
@@ -414,12 +428,10 @@
 .input-group label {
     display: block;
     margin-bottom: 0.75rem;
-
     color: var(--text-main);
     font-size: 0.9rem;
     font-weight: 500;
     letter-spacing: 0.025em;
-    transition: color 0.3s ease;
 }
 
 .input-group input, 
@@ -427,24 +439,19 @@
 .input-group textarea {
     width: 100%;
     padding: 14px 20px;
-    border-radius: 14px; /* تقليل الانحناء قليلاً يعطي طابعاً أكثر جدية وعصرية */
-    background: rgba(255, 255, 255, 0.05); /* خلفية شفافة جداً */
-    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1.5px solid var(--glass-border);
     color: var(--text-main);
     font-size: 0.95rem;
-    letter-spacing: 0.3px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    
-    /* إضافة ظل داخلي خفيف ليعطي عمقاً */
     box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05);
-    
-    /* انتقال ناعم جداً */
     transition: all 0.3s ease-in-out;
     outline: none;
 }
 
-/* تأثير عند تمرير الماوس */
+/* دمج تأثير تمرير الماوس لكل العناصر */
 .input-group input:hover,
 .input-group select:hover,
 .input-group textarea:hover {
@@ -452,47 +459,25 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* التأثير السحري عند التركيز (Focus) */
+/* دمج تأثير التركيز لكل العناصر لضمان ثبات الشكل */
 .input-group input:focus, 
 .input-group select:focus, 
 .input-group textarea:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--primary-color, #6366f1); /* لون التميز الخاص بموقعك */
-    
-    /* إضافة توهج (Glow) خفيف حول العنصر */
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 
-                inset 0 0 0 1px rgba(99, 102, 241, 0.1);
-    
-    transform: translateY(-1px); /* رفعة بسيطة جداً تعطي شعوراً بالتفاعل */
-}
-
-/* تحسين شكل النصوص المؤقتة (Placeholder) */
-.input-group input::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.9rem;
-}
-
-
-/* تأثير عند الوقوف أو التركيز */
-.input-group input:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.input-group input:focus {
-    outline: none;
-    background: rgba(99, 102, 241, 0.05); /* لمحة خفيفة من لون البريماري */
+    background: rgba(99, 102, 241, 0.05); /* مسحة خفيفة من لون الهوية */
     border-color: var(--primary);
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), 
                 0 8px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px); /* رفعة بسيطة تعطي شعور بالتفاعل */
+    transform: translateY(-2px);
 }
 
-/* تحسين شكل النصوص التوضيحية */
-.input-group input::placeholder {
+/* تحسين النصوص المؤقتة */
+.input-group input::placeholder,
+.input-group textarea::placeholder {
     color: var(--text-dim);
-    opacity: 0.7;
+    opacity: 0.6;
 }
+
+
 
         
 /* تنسيقات صفحة عنا المحدثة */
@@ -558,12 +543,7 @@
         }
         .btn-grad:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4); }
 
-:root {
-    --f-bg: #0f172a;
-    --f-text: #94a3b8;
-    --f-white: #f8fafc;
-    --f-accent: #6366f1;
-}
+
 
 .modern-footer {
     background: var(--f-bg);
@@ -862,6 +842,7 @@
     align-items: start;
 }
 
+/* تخصيص العمود الثاني (النموذج) ليكون أعرض قليلاً في الشاشات الواسعة فقط */
 @media (min-width: 1024px) {
     .contact-grid {
         grid-template-columns: 1fr 1.5fr;
@@ -1176,7 +1157,6 @@
 
 /* --- أنيميشن --- */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } 
 
 
-        
