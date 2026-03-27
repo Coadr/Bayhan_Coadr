@@ -73,6 +73,15 @@ function moveToNext(currentElement) {
         'university-select': { value: 'other_custom', target: 'other_university' },
         'country': { value: 'other', target: 'other_country' }
     };
+  function toggleMenu() {
+    const menuBtn = document.getElementById('mobile-menu');
+    const mobileNav = document.getElementById('mobile-nav');
+    if (menuBtn && mobileNav) {
+        menuBtn.classList.toggle('is-active');
+        mobileNav.classList.toggle('active');
+        document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : 'auto';
+    }
+  };
 
     const mapping = otherMappings[currentElement.id];
     if (mapping && currentElement.value === mapping.value) {
@@ -226,36 +235,26 @@ function showProfileSection() {
         profileSection.scrollIntoView({ behavior: 'smooth' });
     }, 10);
 }
-const text = "نسعى لعمل قاعدة بيانات لجمع جميع بيانات الكوادر في الداخل والخارج، وضم جميع الكوادر في قروبات منصة كوادر على مواقع التواصل الاجتماعي لتبادل الخبرات.";
-const typingElement = document.getElementById("typing-text");
 
-let index = 0;
-let isDeleting = false;
-let speed = 100; // سرعة الكتابة الأساسية
 
-function typeLoop() {
-    // تحديد النص الحالي بناءً على الحروف المقطوعة
-    const currentText = text.substring(0, index);
-    typingElement.innerHTML = currentText;
+    const text = "منصة كوادر بيحان الرؤية المستقبلية لبناء بيحان... ";
+    const typingElement = document.getElementById("typing-text");
+    let index = 0;
+    let isDeleting = false;
 
-    // التحكم في السرعة (أسرع عند المسح)
-    speed = isDeleting ? 30 : 200;
-
-    if (!isDeleting && index < text.length) {
-        index++; // إضافة حرف
-    } else if (isDeleting && index > 0) {
-        index--; // مسح حرف
-    } else if (!isDeleting && index === text.length) {
-        isDeleting = true; // البدء بالمسح بعد اكتمال النص
-        speed = 2000; // توقف لمدة ثانيتين عند اكتمال الجملة
-    } else if (isDeleting && index === 0) {
-        isDeleting = false; // العودة للكتابة من جديد
-        speed = 500; // توقف بسيط قبل البدء مرة أخرى
+    function typeLoop() {
+        if(!typingElement) return;
+        const currentText = text.substring(0, index);
+        typingElement.innerHTML = currentText;
+        let speed = isDeleting ? 30 : 150;
+        if (!isDeleting && index < text.length) index++;
+        else if (isDeleting && index > 0) index--;
+        else if (!isDeleting && index === text.length) { isDeleting = true; speed = 2000; }
+        else if (isDeleting && index === 0) { isDeleting = false; speed = 500; }
+        setTimeout(typeLoop, speed);
     }
-
-    setTimeout(typeLoop, speed);
-}
-
+    typeLoop();
+});
 // بدء التأثير
 window.onload = () => setTimeout(typeLoop, 1000);
 // تحسين دالة إظهار حقول "أخرى" مع التركيز التلقائي
