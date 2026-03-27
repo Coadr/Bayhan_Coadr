@@ -28,22 +28,39 @@
     <div class="bg-animate">
         <div class="blob"></div>
     </div>
-
-<header id="mainHeader">
-    <div class="logo">
-        <i class="fas fa-bolt"></i>
-        <span>COAD<span style="color:var(--primary)">R</span></span>
+<header id="mainHeader" class="header">
+    <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
     </div>
-    
-    <nav>
-        <a href="#home" class="active">الرئيسية</a>
-        <a href="#profile">التسجيل</a>
-        <a href="#about">عنا</a>
-        <a href="#contact">تواصل معنا</a>
-    </nav>
 
-    <button class="header-btn" onclick="location.href='#contact'">تابعنا</button>
+    <nav class="nav-desktop">
+        <a href="#home" class="active">الرئيسية</a>
+        <a href="javascript:void(0)" onclick="showProfileSection()">التسجيل</a>
+        <a href="#about">عنا</a>
+        <a href="#contact2">تواصل معنا</a>
+        <a href="#contact">تابعنا </a>
+    </nav>
+    
+    <div class="logo">
+        <span>COAD<span style="color:var(--primary)">R</span></span>
+                <i class="fas fa-bolt"></i>
+
+    </div>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <a href="#home" onclick="toggleMenu()">الرئيسية</a>
+        <a href="javascript:void(0)" onclick="showProfileSection(); toggleMenu();">التسجيل</a>
+        <a href="#about" onclick="toggleMenu()">عنا</a>
+        <a href="#contact2" onclick="toggleMenu()">تواصل معنا</a>
+        <a href="#contact" onclick="toggleMenu()">تابعنا </a>
+    </div>
 </header>
+
+    
+    
 
     <main>
       
